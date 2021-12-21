@@ -1,23 +1,23 @@
 import Foundation
 
-protocol NetworkServiceProtocol {
+public protocol NetworkServiceProtocol {
     var isConnect: Bool { get set }
     func request<T: DataRequest, M: Codable>(_ request: T, decodableModel: M.Type, completion: @escaping (Result<M, NetworkServiceError>) -> Void)
 }
 
-final class NetworkService: NetworkServiceProtocol {
+final public class NetworkService: NetworkServiceProtocol {
 
     private let networkFactory: NetworkURLRequestProtocol
     private let session: URLSession
     
-    var isConnect: Bool = Reachability.isConnectedToNetwork()
+    public var isConnect: Bool = Reachability.isConnectedToNetwork()
     
     init(networkFactory: NetworkURLRequestProtocol = NetworkURLRequest(), session: URLSession = URLSession.shared) {
         self.networkFactory = networkFactory
         self.session = session
     }
     
-    func request<T: DataRequest, M: Codable>(_ request: T, decodableModel: M.Type, completion: @escaping (Result<M, NetworkServiceError>) -> Void) {
+    public func request<T: DataRequest, M: Codable>(_ request: T, decodableModel: M.Type, completion: @escaping (Result<M, NetworkServiceError>) -> Void) {
         
         guard isConnect else {
             return completion(.failure(.connectionFailure))

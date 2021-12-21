@@ -1,4 +1,4 @@
-enum NetworkServiceError: Error, Equatable {
+public enum NetworkServiceError: Error, Equatable {
     case connectionFailure
     case sessionError
     case httpError
