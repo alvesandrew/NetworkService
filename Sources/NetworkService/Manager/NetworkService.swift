@@ -7,13 +7,11 @@ public protocol NetworkServiceProtocol {
 
 final public class NetworkService: NetworkServiceProtocol {
 
-    private let networkFactory: NetworkURLRequestProtocol
     private let session: URLSession
     
     public var isConnect: Bool = Reachability.isConnectedToNetwork()
     
-    init(networkFactory: NetworkURLRequestProtocol = NetworkURLRequest(), session: URLSession = URLSession.shared) {
-        self.networkFactory = networkFactory
+    public init(session: URLSession = URLSession.shared) {
         self.session = session
     }
     
@@ -24,7 +22,8 @@ final public class NetworkService: NetworkServiceProtocol {
         }
         
         do {
-            let urlRequest = try networkFactory.createUrlRequest(with: request)
+            let factory: NetworkURLRequestProtocol = NetworkURLRequest()
+            let urlRequest = try factory.createUrlRequest(with: request)
             
             session.dataTask(with: urlRequest) { (data, response, error) in
                 if let _ = error {
